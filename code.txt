@@ -1,0 +1,50 @@
+Hola mundo:
+
+-module(ex1).
+-export([hello/0]).
+hello() -> io:fwrite("Hello World").
+
+
+Argumentos de linea de comandos:
+
+-module(ex1).
+-export([hello/1]).
+hello(Arg) -> io:format("\nHello ~s\n\n", Arg).
+
+
+Standart Stream:
+
+-module(std).
+-export([main/0]).
+
+main() ->
+    {ok, [X]} = io:fread("How many Hellos?> ", "~d"),
+    hello(X),
+    io:format(standard_error, "An error has ocurred ~p~n", [X]).
+
+hello(N) when N =< 0 -> ok;
+hello(N) -> io:fwrite("Hello World!~n"),
+    	hello(N - 1).
+
+
+Variables de ambiente:
+
+-module(env).
+-export([main/0]).
+
+main() -> Foo = os:getenv("HOME","none"),
+	io:format("The environment variable is: ~p.\n", [Foo]).
+
+
+File I/O:
+
+-module(fileasd).
+-export([main/0]).
+
+main() -> write(), read().
+
+write() -> {ok, S} = file:open("test.txt", [write]),
+	io:format(S, "~s~n", ["test message"]).
+
+read() -> {ok, S} = file:open("record.txt", read),
+	io:get_line(S, '').
